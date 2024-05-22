@@ -27,6 +27,8 @@ taskController.getTask = async (req, res) => {
     }
 }
 
+// 강사님 방식
+
 // taskController.updateTask = async (req, res) => {
 //     try {
 //         // const { task: updateTarget, isComplete: updateComplete } = req.body          // req에서 받은 데이터로 찾지 않고 url의 id를 이용해서 찾을 수 있어야한다.
@@ -44,15 +46,21 @@ taskController.getTask = async (req, res) => {
 //     }
 // }
 
+// 내가한 방식
+
 taskController.updateTask = async (req, res) => {
     try {
-        // const { task: updateTarget, isComplete: updateComplete } = req.body          // req에서 받은 데이터로 찾지 않고 url의 id를 이용해서 찾을 수 있어야한다.
-        // const updateTarget = await Task.findById(req.params.id)             // 1. url의 params중 id를 가지고 Task에서 해당 id를 가진 대상을 찾는다.
-        // if (!updateTarget) {
-        //     throw new Error("don't find task")
-        // }
         const modifyTask = await Task.updateOne({ _id: req.params.id }, { $set: { isComplete: req.body.isComplete, task: req.body.task } })
         res.status(200).json({ status: 'success', data: modifyTask })
+    } catch (err) {
+        res.status(400).json({ status: 'fail', err })
+    }
+}
+
+taskController.deleteTask = async (req, res) => {
+    try {
+        const removeTask = await Task.deleteOne({ _id: req.params.id })
+        res.status(200).json({ status: 'success', data: removeTask })
     } catch (err) {
         res.status(400).json({ status: 'fail', err })
     }
