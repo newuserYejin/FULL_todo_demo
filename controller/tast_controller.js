@@ -50,7 +50,7 @@ taskController.getTask = async (req, res) => {
 
 taskController.updateTask = async (req, res) => {
     try {
-        const modifyTask = await Task.updateOne({ _id: req.params.id }, { $set: { isComplete: req.body.isComplete, task: req.body.task } })
+        const modifyTask = await Task.updateOne({ _id: req.params.id }, { $set: { isComplete: req.body.isComplete } })
         res.status(200).json({ status: 'success', data: modifyTask })
     } catch (err) {
         res.status(400).json({ status: 'fail', err })
