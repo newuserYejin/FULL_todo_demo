@@ -12,7 +12,7 @@ authController.authenticate = (req, res, next) => {
         const token = tokenString.replace("Bearer ", "")
         jwt.verify(token, JWT_SECRET_KEY, (error, payload) => {
             if (error) {
-                throw new Error("invalid token")
+                throw new Error("ho invalid token")
             }
             req.userId = payload._id
         })
