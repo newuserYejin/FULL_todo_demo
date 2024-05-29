@@ -7,8 +7,9 @@ const taskController = {
 taskController.createTask = async (req, res) => {
     try {
         const { task, isComplete } = req.body
+        const { userId } = req
 
-        const newTask = new Task({ task, isComplete })
+        const newTask = new Task({ task, isComplete, author: userId })
         await newTask.save()
 
         res.status(200).json({ status: 'success', data: newTask })
@@ -20,7 +21,7 @@ taskController.createTask = async (req, res) => {
 taskController.getTask = async (req, res) => {
     try {
         // Task 테이블의 모든 데이터 받아오기
-        const taskList = await Task.find({}).select("-__v")     // __v는 버전 정보(내가 추가한 데이터 아님)
+        const taskList = await Task.find({}).populate("author").select("-__v")     // __v는 버전 정보(내가 추가한 데이터 아님)
         res.status(200).json({ status: 'success', data: taskList })
     } catch (err) {
         res.status(400).json({ status: 'fail', error: err })

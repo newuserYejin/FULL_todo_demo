@@ -25,7 +25,8 @@ const userSchema = Schema({
 userSchema.methods.toJSON = function () {
     const obj = this._doc
     delete obj.password     // 패스워드는 중요한 정보이기 댸문에 모든 곳에서 json으로 불러지면 제거되도록 작성
-
+    delete obj.updatedAt
+    delete obj.__v
     return obj
 }
 

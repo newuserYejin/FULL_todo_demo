@@ -40,7 +40,20 @@ userController.loginWithEmail = async (req, res) => {
         }
         throw new Error("Your Id or Password is not match!!")
     } catch (error) {
-        res.status(400).json({ status: "login fail", error })
+        res.status(400).json({ status: "login fail", message: error.message })
+    }
+}
+
+userController.getUser = async (req, res) => {
+    try {
+        const { userId } = req
+        const user = await User.findById(userId)
+        if (!user) {
+            throw new Error("can not find user")
+        }
+        res.status(200).json({ status: "get user success", user })
+    } catch (error) {
+        res.status(400).json({ status: "get user fail", message: error.message })
     }
 }
 

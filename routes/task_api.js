@@ -1,5 +1,6 @@
 const express = require('express')
 const taskController = require('../controller/tast_controller')
+const authController = require('../controller/auth_controller')
 const router = express.Router()
 
 // router.post('/', (req, res) => {
@@ -7,9 +8,9 @@ const router = express.Router()
 // })
 
 // taskController 안의 createTask 실행
-router.post('/', taskController.createTask)
-
 router.get('/', taskController.getTask)
+
+router.post('/', authController.authenticate, taskController.createTask)
 
 router.put('/:id', taskController.updateTask)
 
